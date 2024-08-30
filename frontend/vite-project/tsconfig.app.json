@@ -20,5 +20,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "@",
+    "src/components",
+    "src/lib",
+    "src/components",
+    "src/lib"
+  ]
 }
