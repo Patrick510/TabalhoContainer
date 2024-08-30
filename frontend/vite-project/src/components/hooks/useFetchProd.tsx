@@ -20,7 +20,7 @@ export const useFetchProd = () => {
         } else {
           setError("Ocorreu um erro desconhecido");
         }
-        console.error("Não foi possível encontrar os dados desse CEP");
+        console.error("Não foi possível encontrar os produtos");
         setLoading(false);
       }
     };
