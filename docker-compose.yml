@@ -1,0 +1,35 @@
+services:
+  mysql:
+    image: mysql:9.0.1
+    container_name: mysql-products
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: products
+    ports:
+      - "3838:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: backend/
+    container_name: backend
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/products
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+  frontend:
+    build:
+      context: frontend/vite-project/
+    container_name: frontend
+    ports:
+      - "5173:3000"
+
+volumes:
+  mysql_data:
