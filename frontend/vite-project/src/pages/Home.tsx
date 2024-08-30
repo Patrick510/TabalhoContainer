@@ -22,20 +22,8 @@ interface Produto {
 
 export default function Home() {
   const [produtos, setProdutos] = useState([] as Produto[]);
-  const [contador, setContador] = useState(0);
 
   const { data } = useFetchProd();
-
-  if (data && produtos.length === 0) {
-    setProdutos(data);
-  }
-
-  function incrementar() {
-    setContador(contador + 1);
-    const p = document.createElement("p");
-    p.innerHTML = `Contador: ${contador}`;
-    document.querySelector(".criap")?.appendChild(p);
-  }
 
   // String nome; String descricao; double preco;
 
@@ -51,7 +39,7 @@ export default function Home() {
         <CardContent className="w-full">
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Nome</Label>
+              <Label htmlFor="name">Nome:</Label>
               <Input id="name" placeholder="Nome do produto:" />
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -59,8 +47,8 @@ export default function Home() {
               <Textarea id="desc" placeholder="Descrição do produto"></Textarea>
             </div>
             <div className="flex flex-row space-y-1.5 items-center gap-2">
-              <Label htmlFor="preco">Preço</Label>
-              <Input id="preco" placeholder="Preço do produto" type="number"></Input>
+              <Label htmlFor="preco">Preço:</Label>
+              <Input id="preco" placeholder="Preço do produto" type="number" onChange={(e)=>{setProdutos(produtos.preco)}}></Input> 
             </div>
           </div>
         </CardContent>
