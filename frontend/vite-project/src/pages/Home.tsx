@@ -6,7 +6,9 @@ export default function Home() {
   const [produtos, setProdutos] = useState([]);
   const [contador, setContador] = useState(0);
 
-  const { data } = useFetchProd();
+  const {
+    data: [],
+  } = useFetchProd();
 
   function incrementar() {
     setContador(contador + 1);
@@ -24,13 +26,12 @@ export default function Home() {
       <div className="criap bg-slate-600"></div>
 
       <div>
-        {data &&
-          data.map((produto) => (
-            <div key={produto.id}>
-              <p>{produto.nome}</p>
-              <p>{produto.preco}</p>
-            </div>
-          ))}
+        {data?.map((produto) => (
+          <div key={produto.id}>
+            <p>{produto.nome}</p>
+            <p>{produto.preco}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
