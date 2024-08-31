@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useEffect, useState } from "react";
+import { useFetchProd } from "@/components/hooks/useFetchProd";
 
 interface Produto {
   id: number;
@@ -19,6 +21,16 @@ interface Produto {
 }
 
 export default function Home() {
+  const [produtos, setProdutos] = useState<Produto[]>([]);
+
+  const { data, loading, error } = useFetchProd();
+
+  useEffect(() => {
+    if (data) {
+      setProdutos(data);
+    }
+  }, [data]);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-slate-50">
       <Card className="w-[450px] h-[500px] flex flex-col items-center justify-center rounded-md bg-white shadow-md">
@@ -54,6 +66,19 @@ export default function Home() {
           <Button variant="outline">Cancel</Button>
           <Button>Deploy</Button>
         </CardFooter>
+        {loading ? (
+          <p>Carregando...</p>
+        ) : (
+          <div>
+            {produtos.map((produto) => (
+              <div key={produto.id}>
+                <p>{produto.nome}</p>
+                <p>{produto.descricao}</p>
+                <p>{produto.preco}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </Card>
     </div>
   );
