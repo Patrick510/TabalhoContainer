@@ -28,6 +28,8 @@ services:
     build:
       context: frontend/vite-project/
     container_name: frontend
+    depends_on:
+      - backend
     ports:
       - "5173:3000"
 
