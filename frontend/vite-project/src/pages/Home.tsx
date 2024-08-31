@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardTitle,
-  CardHeader,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardTitle, CardHeader, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useFetchProd } from "@/components/hooks/useFetchProd";
 import {
@@ -71,8 +66,8 @@ export default function Home() {
                   </TableCell>
                   <TableCell className="text-left">R$ 29,99</TableCell>
                   <TableCell className="text-left w-[10px] overflow-x-auto whitespace-nowrap">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio iure mollitia molestias repudiandae autem fugiat officia illum, ipsum deserunt. Reprehenderit, aliquid non hic consectetur quo error. Est eius quaerat impedit.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, maiores quos ipsam repellat, voluptatibus beatae velit, maxime dolorum libero hic tenetur sapiente quis illo ea. Vero suscipit corporis non voluptate?
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Distinctio iure mollitia molestias
                   </TableCell>
                   <TableCell className="text-left flex gap-3">
                     <a href="#">
