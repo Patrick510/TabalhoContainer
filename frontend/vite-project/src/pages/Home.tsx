@@ -1,17 +1,15 @@
-import { useState } from "react";
-import { Button } from "../../@/components/ui/button";
 import {
   Card,
   CardTitle,
-  CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-} from "../../@/components/ui/card";
-import { Input } from "../../@/components/ui/input";
-import { Label } from "../../@/components/ui/label";
-import { useFetchProd } from "../components/hooks/useFetchProd";
-import { Textarea } from "../../@/components/ui/textarea";
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Produto {
   id: number;
@@ -21,17 +19,13 @@ interface Produto {
 }
 
 export default function Home() {
-  const [produtos, setProdutos] = useState([] as Produto[]);
-
-  const { data } = useFetchProd();
-
-  // String nome; String descricao; double preco;
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex items-center justify-center min-h-screen bg-slate-50">
       <Card className="w-[450px] h-[500px] flex flex-col items-center justify-center rounded-md bg-white shadow-md">
         <CardHeader className="text-center pb-3 pt-3">
-          <CardTitle className="uppercase font-semibold text-xl">Cadastrar produto</CardTitle>
+          <CardTitle className="uppercase font-semibold text-xl">
+            Cadastrar produto
+          </CardTitle>
           <CardDescription className="text-lg">
             Preencha os dados de produto
           </CardDescription>
@@ -48,7 +42,11 @@ export default function Home() {
             </div>
             <div className="flex flex-row space-y-1.5 items-center gap-2">
               <Label htmlFor="preco">Preço:</Label>
-              <Input id="preco" placeholder="Preço do produto" type="number" onChange={(e)=>{setProdutos(produtos.preco)}}></Input> 
+              <Input
+                id="preco"
+                placeholder="Preço do produto"
+                type="number"
+              ></Input>
             </div>
           </div>
         </CardContent>

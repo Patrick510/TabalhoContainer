@@ -1,7 +1,7 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./globals.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
 import Home from "./pages/Home.tsx";
 
 const routes = createBrowserRouter([
