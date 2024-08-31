@@ -1,12 +1,9 @@
 import {
   Card,
   CardTitle,
-  CardFooter,
   CardHeader,
-  CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Edit, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFetchProd } from "@/components/hooks/useFetchProd";
 import {
@@ -20,18 +17,6 @@ import {
 } from "@/components/ui/table";
 import InputProd from "@/components/InputProd";
 import { ModeToggle } from "@/components/ModeToggle";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import DialogEdit from "@/components/DialogEdit";
 import DialogDel from "@/components/DialogDel";
 
@@ -55,12 +40,15 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
-      <Card className="w-full h-[400px] ml-36 mr-36 flex flex-row items-center justify-center rounded-md shadow-md">
-        <div className="border-r-2 w-full h-full">
-          <CardHeader className="text-center">
+      <Card className="w-full h-full lg:h-[400px] ml-36 mr-36 flex flex-col lg:flex-row items-center justify-center rounded-md shadow-md">
+        <div className="lg:border-r-2 w-full h-full">
+          <CardHeader className="text-center ">
             <CardTitle className="uppercase font-semibold text-xl">
               Listar produtos
             </CardTitle>
+            <div className="absolute top-2 right-2">
+              <ModeToggle />
+            </div>
           </CardHeader>
           {loading ? (
             <p>Carregando...</p>
@@ -82,15 +70,16 @@ export default function Home() {
                     Produto 1
                   </TableCell>
                   <TableCell className="text-left">R$ 29,99</TableCell>
-                  <TableCell className="text-left">
-                    Esse produto é de tal tal coisa
+                  <TableCell className="text-left w-[10px] overflow-x-auto whitespace-nowrap">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio iure mollitia molestias repudiandae autem fugiat officia illum, ipsum deserunt. Reprehenderit, aliquid non hic consectetur quo error. Est eius quaerat impedit.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, maiores quos ipsam repellat, voluptatibus beatae velit, maxime dolorum libero hic tenetur sapiente quis illo ea. Vero suscipit corporis non voluptate?
                   </TableCell>
                   <TableCell className="text-left flex gap-3">
                     <a href="#">
-                      <DialogEdit/>
+                      <DialogEdit />
                     </a>{" "}
                     <a href="#">
-                      <DialogDel/>
+                      <DialogDel />
                     </a>{" "}
                   </TableCell>
                 </TableBody>
@@ -99,7 +88,6 @@ export default function Home() {
           )}
         </div>
         <InputProd />
-        <ModeToggle />
       </Card>
     </div>
   );

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function InputProd() {
 
@@ -19,32 +20,39 @@ export default function InputProd() {
         preco: 0,
     });
 
-    console.log(produto)
-
     const [nome, setNome]= useState("")
     const [descricao, setDescricao] = useState("")
     const [preco, setPreco] = useState("")
-    const [erro, setErro] = useState("")
+    const [cadastrado, setCadastrado] = useState(false)
 
     const addProduto = () =>{
         if (nome === "" || descricao === "" || preco === "" || parseFloat(preco) <= 0) {
-            setErro("Por favor, preencha todos os campos corretamente")
+            toast("Por favor, preencha todos os campos corretamente", {
+                description:"Sabado, Agosto 31, 2024 as 11:00 AM" ,
+                action: {
+                    label: "Undo",
+                    onClick: () => setCadastrado(false)
+                }
+            })
             return
         } else {
             setProduto({nome, descricao, preco:parseFloat(preco) || 0})
+            setCadastrado(true)
             setNome("")
             setDescricao("")
             setPreco("")
+            toast("Produto Cadastrado!", {
+                description:"Sabado, Agosto 31, 2024 as 11:00 AM" ,
+                action: {
+                    label: "Ok",
+                    onClick: () => setCadastrado(false)
+                }
+            })
         }
     }
     
     return (
         <div className="w-full">
-        {erro && (
-            <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">
-                {erro}
-            </div>
-        )}
         <CardHeader className="text-center pb-3 pt-3">
             <CardTitle className="uppercase font-semibold text-xl">
             Cadastrar produto
