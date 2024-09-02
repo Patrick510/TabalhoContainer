@@ -13,9 +13,15 @@ import { Produto } from "@/lib/types";
 
 interface TableProdProps {
   produtos: Produto[];
+  onSaveEdit: (produto: Produto) => void;
+  onDelete: (produto: Produto) => void;
 }
 
-export default function TableProd({ produtos }: TableProdProps) {
+export default function TableProd({
+  produtos,
+  onSaveEdit,
+  onDelete,
+}: Readonly<TableProdProps>) {
   if (!produtos || produtos.length === 0) {
     return <p>Nenhum produto encontrado</p>;
   }
@@ -38,13 +44,15 @@ export default function TableProd({ produtos }: TableProdProps) {
             <TableCell className="font-medium text-left">
               {produto.nome}
             </TableCell>
-            <TableCell className="text-left">R$ {produto.preco.toFixed(2)}</TableCell>
+            <TableCell className="text-left">
+              R$ {produto.preco.toFixed(2)}
+            </TableCell>
             <TableCell className="text-left w-[200px] scrollbar-custom overflow-x-auto whitespace-nowrap">
               {produto.descricao}
             </TableCell>
             <TableCell className="text-left flex gap-3 items-center mt-2">
-              <DialogEdit idProduto={produto.id}/> {/* Remova o <a> se estiver aninhando botões */}
-              <DialogDel /> {/* Remova o <a> se estiver aninhando botões */}
+              <DialogEdit produto={produto} onSaveEdit={onSaveEdit} />{" "}
+              <DialogDel onDelete={() => onDelete(produto)} />{" "}
             </TableCell>
           </TableRow>
         ))}
