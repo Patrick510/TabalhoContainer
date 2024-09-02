@@ -4,13 +4,7 @@ import { useFetchProd } from "@/components/hooks/useFetchProd";
 import InputProd from "@/components/InputProd";
 import { ModeToggle } from "@/components/ModeToggle";
 import TableProd from "@/components/TableProd";
-
-interface Produto {
-  id: number;
-  nome: string;
-  descricao: string;
-  preco: number;
-}
+import {Produto} from "@/lib/types";
 
 export default function Home() {
   const [produtos, setProdutos] = useState<Produto[]>([]);

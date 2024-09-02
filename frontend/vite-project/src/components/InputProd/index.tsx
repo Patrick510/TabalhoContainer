@@ -11,23 +11,36 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { Produto } from "@/lib/types";
 
-export default function InputProd({
-  setProdutos,
-}: {
+interface InputProdProps {
   setProdutos: React.Dispatch<React.SetStateAction<Produto[]>>;
-}) {
+}
+
+export default function InputProd({ setProdutos }: InputProdProps) {
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [preco, setPreco] = useState("");
+  const [preco, setPreco] = useState<string>("");
   const [cadastrado, setCadastrado] = useState(false);
+  let id = 1;
+
+  const formatValue = (value: string): string => {
+    return value.replace(/^R\$ /, '').replace(/[^\d,]/g, '');
+  };
+
+  const handlePrecoChange = (value: string) => {
+    setPreco(formatValue(value));
+  };
 
   const addProduto = () => {
+    const precoNumerico = parseFloat(preco.replace(',', '.'));
+
     if (
       nome === "" ||
       descricao === "" ||
       preco === "" ||
-      parseFloat(preco) <= 0
+      isNaN(precoNumerico) ||
+      precoNumerico <= 0
     ) {
       toast("Por favor, preencha todos os campos corretamente", {
         description: "Sabado, Agosto 31, 2024 as 11:00 AM",
@@ -39,12 +52,14 @@ export default function InputProd({
       return;
     } else {
       const novoProduto = {
+        id: id,
         nome,
         descricao,
-        preco: parseFloat(preco),
+        preco: precoNumerico,
       };
       setProdutos((prev) => [...prev, novoProduto]);
       setCadastrado(true);
+      id++;
       setNome("");
       setDescricao("");
       setPreco("");
@@ -74,6 +89,7 @@ export default function InputProd({
             <Label htmlFor="nameProduto">Nome:</Label>
             <Input
               id="name"
+              value={nome}
               placeholder="Nome do produto:"
               onChange={(e) => setNome(e.target.value)}
             />
@@ -82,24 +98,25 @@ export default function InputProd({
             <Label htmlFor="descricaoProduto">Descrição</Label>
             <Textarea
               id="desc"
+              value={descricao}
               placeholder="Descrição do produto"
               onChange={(e) => setDescricao(e.target.value)}
-            ></Textarea>
+              className="resize-none"
+            />
           </div>
           <div className="flex flex-row space-y-1.5 items-center gap-2">
             <Label htmlFor="precoProduto">Preço:</Label>
             <Input
               id="preco"
-              placeholder="Preço do produto"
-              type="number"
-              onChange={(e) => setPreco(e.target.value)}
-            ></Input>
+              placeholder="R$ 0,00"
+              value={`R$ ${preco}`}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePrecoChange(e.target.value)}
+            />
           </div>
         </div>
       </CardContent>
       <CardFooter className="p-2 flex justify-center items-center">
-        {/* <Button variant="outline">Cancel</Button> */}
-        <Button onClick={() => addProduto()}>Cadasrar</Button>
+        <Button type="button" onClick={() => addProduto()}>Cadastrar</Button>
       </CardFooter>
     </div>
   );
