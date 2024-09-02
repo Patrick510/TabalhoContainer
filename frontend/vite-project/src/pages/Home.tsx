@@ -4,7 +4,7 @@ import { useFetchProd } from "@/components/hooks/useFetchProd";
 import InputProd from "@/components/InputProd";
 import { ModeToggle } from "@/components/ModeToggle";
 import TableProd from "@/components/TableProd";
-import {Produto} from "@/lib/types";
+import { Produto } from "@/lib/types";
 
 export default function Home() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
@@ -16,6 +16,18 @@ export default function Home() {
       setProdutos(data);
     }
   }, [data]);
+
+  const handleSaveEdit = (produtoEditado: Produto) => {
+    setProdutos((prev) => [
+      ...prev.map((produto) =>
+        produto.id === produtoEditado.id ? produtoEditado : produto
+      ),
+    ]);
+  };
+
+  const handleDelete = (produto: Produto) => {
+    setProdutos((prev) => prev.filter((p) => p.id !== produto.id));
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
@@ -34,7 +46,11 @@ export default function Home() {
             <p>Carregando...</p>
           ) : (
             <CardContent>
-              <TableProd produtos={produtos} />
+              <TableProd
+                produtos={produtos}
+                onSaveEdit={handleSaveEdit}
+                onDelete={handleDelete}
+              />
             </CardContent>
           )}
         </div>
