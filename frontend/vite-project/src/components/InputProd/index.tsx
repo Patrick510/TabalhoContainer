@@ -14,18 +14,17 @@ import { toast } from "sonner";
 import { Produto } from "@/lib/types";
 
 interface InputProdProps {
-  setProdutos: React.Dispatch<React.SetStateAction<Produto[]>>;
+  onSave: (produto: Produto) => void;
 }
 
-export default function InputProd({ setProdutos }: InputProdProps) {
+export default function InputProd({ onSave }: Readonly<InputProdProps>) {
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [preco, setPreco] = useState<string>("");
   const [cadastrado, setCadastrado] = useState(false);
-  let id = 1;
 
   const formatValue = (value: string): string => {
-    return value.replace(/^R\$ /, '').replace(/[^\d,]/g, '');
+    return value.replace(/^R\$ /, "").replace(/[^\d,]/g, "");
   };
 
   const handlePrecoChange = (value: string) => {
@@ -33,7 +32,7 @@ export default function InputProd({ setProdutos }: InputProdProps) {
   };
 
   const addProduto = () => {
-    const precoNumerico = parseFloat(preco.replace(',', '.'));
+    const precoNumerico = parseFloat(preco.replace(",", "."));
 
     if (
       nome === "" ||
@@ -49,17 +48,14 @@ export default function InputProd({ setProdutos }: InputProdProps) {
           onClick: () => setCadastrado(false),
         },
       });
-      return;
     } else {
       const novoProduto = {
-        id: id,
         nome,
         descricao,
         preco: precoNumerico,
       };
-      setProdutos((prev) => [...prev, novoProduto]);
+      onSave(novoProduto);
       setCadastrado(true);
-      id++;
       setNome("");
       setDescricao("");
       setPreco("");
@@ -110,13 +106,17 @@ export default function InputProd({ setProdutos }: InputProdProps) {
               id="preco"
               placeholder="R$ 0,00"
               value={`R$ ${preco}`}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePrecoChange(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handlePrecoChange(e.target.value)
+              }
             />
           </div>
         </div>
       </CardContent>
       <CardFooter className="p-2 flex justify-center items-center">
-        <Button type="button" onClick={() => addProduto()}>Cadastrar</Button>
+        <Button type="button" onClick={() => addProduto()}>
+          Cadastrar
+        </Button>
       </CardFooter>
     </div>
   );

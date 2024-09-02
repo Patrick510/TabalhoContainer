@@ -10,13 +10,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useState } from "react";
-import { Produto } from "@/lib/types";
 
-interface DialogDelProps {
-  onDelete: (produto: Produto) => void;
-}
-
-export default function DialogDel({ onDelete }: { onDelete: () => void }) {
+export default function DialogDel({
+  onDelete,
+}: Readonly<{ onDelete: () => void }>) {
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
