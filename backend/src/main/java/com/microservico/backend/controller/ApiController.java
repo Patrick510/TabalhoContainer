@@ -20,12 +20,12 @@ public class ApiController {
     }
 
     @PostMapping("/addProd")
-    public void addProd(@RequestBody List<Produto> produtos){
+    public void addProd(@RequestBody Produto produtos) {
         apiService.addProduto(produtos);
     }
 
     @GetMapping("/getProd")
-    public List<Produto> getProd(){
+    public List<Produto> getProd() {
         return apiService.listarProdutos();
     }
 
