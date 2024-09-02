@@ -43,7 +43,7 @@ export default function TableProd({ produtos }: TableProdProps) {
               {produto.descricao}
             </TableCell>
             <TableCell className="text-left flex gap-3 items-center mt-2">
-              <DialogEdit /> {/* Remova o <a> se estiver aninhando botões */}
+              <DialogEdit idProduto={produto.id}/> {/* Remova o <a> se estiver aninhando botões */}
               <DialogDel /> {/* Remova o <a> se estiver aninhando botões */}
             </TableCell>
           </TableRow>
