@@ -54,6 +54,7 @@ export default function InputProd({ onSave }: Readonly<InputProdProps>) {
         descricao,
         preco: precoNumerico,
       };
+      // console.log(novoProduto);
       onSave(novoProduto);
       setCadastrado(true);
       setNome("");
