@@ -14,19 +14,16 @@ public class ApiService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-
-    public void addProduto(List<Produto> produtos) {
-        for (Produto produto : produtos){
-            System.out.println("Produto a ser salvo: "+produto);
-        }
-        produtoRepository.saveAll(produtos);
+    public void addProduto(Produto produto) {
+        System.out.println("Produto a ser salvo: " + produto);
+        produtoRepository.save(produto);
     }
 
     public List<Produto> listarProdutos() {
         return produtoRepository.findAll();
     }
 
-    public String editarProduto(long id, Produto request){
+    public String editarProduto(long id, Produto request) {
         Optional<Produto> produtoExistente = produtoRepository.findById(id);
 
         if (produtoExistente.isPresent()) {
