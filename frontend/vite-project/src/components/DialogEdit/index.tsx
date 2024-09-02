@@ -11,8 +11,28 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Edit } from "lucide-react";
+import { Produto } from "@/lib/types";
+import { useState } from "react";
 
-export default function DialogEdit() {
+interface DialogEditProps{
+  produtos: Produto;
+  onSave: (produto: Produto => void)
+}
+
+export default function DialogEdit({produto, onSave}: DialogEditProps) {
+  const [nome, setNome] = useState(produto.nome)
+  const [descricao, setDescricao] = useState(produto.descricao)
+  const [preco, setPreco] = useState(produto.preco.toFixed(2))
+
+  const handleSave = () => {
+    onSave({
+      ...produto,
+      nome,
+      descricao,
+      preco: parseFloat(preco),
+    })
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
