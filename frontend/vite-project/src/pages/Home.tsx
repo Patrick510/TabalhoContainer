@@ -46,6 +46,7 @@ export default function Home() {
 
   const handleSave = (produto: Produto) => {
     setProdutoParaAdicionar(produto);
+    // setProdutos((prev) => [...prev, produto]);
   };
 
   return (
