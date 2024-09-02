@@ -14,63 +14,76 @@ import { Edit } from "lucide-react";
 import { Produto } from "@/lib/types";
 import { useState } from "react";
 
-interface DialogEditProps{
-  produtos: Produto;
-  onSave: (produto: Produto => void)
+interface DialogEditProps {
+  produto: Produto;
+  onSaveEdit: (produto: Produto) => void;
 }
 
-export default function DialogEdit({produto, onSave}: DialogEditProps) {
-  const [nome, setNome] = useState(produto.nome)
-  const [descricao, setDescricao] = useState(produto.descricao)
-  const [preco, setPreco] = useState(produto.preco.toFixed(2))
+export default function DialogEdit({ produto, onSaveEdit }: DialogEditProps) {
+  const [nome, setNome] = useState(produto.nome);
+  const [descricao, setDescricao] = useState(produto.descricao);
+  const [preco, setPreco] = useState(produto.preco.toFixed(2));
+  const [open, setOpen] = useState(false);
 
   const handleSave = () => {
-    onSave({
+    onSaveEdit({
       ...produto,
       nome,
       descricao,
       preco: parseFloat(preco),
-    })
-  }
+    });
+    setOpen(false);
+  };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="secondary">
+        <Button variant="secondary" onClick={() => setOpen(true)}>
           <Edit />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Edit product</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Faça as alterações do produto. Clique em Salvar para confirmar as
+            alterações.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Name
+              Nome
             </Label>
             <Input
               id="name"
-              defaultValue="Pedro Duarte"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
               className="col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
+            <Label htmlFor="descricao">Descrição</Label>
             <Input
-              id="username"
-              defaultValue="@peduarte"
-              className="col-span-3"
+              id="descricao"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+            />
+          </div>
+
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="preco">Preco</Label>
+            <Input
+              id="preco"
+              value={preco}
+              onChange={(e) => setPreco(e.target.value)}
             />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" onClick={handleSave}>
+            Salvar mudanças
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
