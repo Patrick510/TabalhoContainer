@@ -10,6 +10,7 @@ import {
 import DialogEdit from "@/components/DialogEdit";
 import DialogDel from "@/components/DialogDel";
 import { Produto } from "@/lib/types";
+import { on } from "events";
 
 interface TableProdProps {
   produtos: Produto[];
@@ -39,23 +40,26 @@ export default function TableProd({
       </TableHeader>
 
       <TableBody className="w-max">
-        {produtos.map((produto) => (
-          <TableRow key={produto.id}>
-            <TableCell className="font-medium text-left">
-              {produto.nome}
-            </TableCell>
-            <TableCell className="text-left">
-              R$ {produto.preco.toFixed(2)}
-            </TableCell>
-            <TableCell className="text-left w-[200px] scrollbar-custom overflow-x-auto whitespace-nowrap">
-              {produto.descricao}
-            </TableCell>
-            <TableCell className="text-left flex gap-3 items-center mt-2">
-              <DialogEdit produto={produto} onSaveEdit={onSaveEdit} />{" "}
-              <DialogDel onDelete={() => onDelete(produto)} />{" "}
-            </TableCell>
-          </TableRow>
-        ))}
+        {produtos.map((produto) => {
+          if (!produto) return null; // Skip null or undefined products
+          return (
+            <TableRow key={produto.id_produto}>
+              <TableCell className="font-medium text-left">
+                {produto.nome}
+              </TableCell>
+              <TableCell className="text-left">
+                R$ {produto.preco.toFixed(2)}
+              </TableCell>
+              <TableCell className="text-left w-[200px] scrollbar-custom overflow-x-auto whitespace-nowrap">
+                {produto.descricao}
+              </TableCell>
+              <TableCell className="text-left flex gap-3 items-center mt-2">
+                <DialogEdit produto={produto} onSaveEdit={onSaveEdit} />{" "}
+                <DialogDel onDelete={() => onDelete(produto)} />{" "}
+              </TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );

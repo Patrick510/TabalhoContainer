@@ -19,19 +19,17 @@ interface DialogEditProps {
   onSaveEdit: (produto: Produto) => void;
 }
 
-export default function DialogEdit({ produto, onSaveEdit }: DialogEditProps) {
+export default function DialogEdit({
+  produto,
+  onSaveEdit,
+}: Readonly<DialogEditProps>) {
   const [nome, setNome] = useState(produto.nome);
   const [descricao, setDescricao] = useState(produto.descricao);
   const [preco, setPreco] = useState(produto.preco.toFixed(2));
   const [open, setOpen] = useState(false);
 
   const handleSave = () => {
-    onSaveEdit({
-      ...produto,
-      nome,
-      descricao,
-      preco: parseFloat(preco),
-    });
+    onSaveEdit({ ...produto, nome, descricao, preco: parseFloat(preco) });
     setOpen(false);
   };
 
