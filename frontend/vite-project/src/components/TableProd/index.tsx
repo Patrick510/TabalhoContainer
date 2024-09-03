@@ -10,7 +10,6 @@ import {
 import DialogEdit from "@/components/DialogEdit";
 import DialogDel from "@/components/DialogDel";
 import { Produto } from "@/lib/types";
-import { on } from "events";
 
 interface TableProdProps {
   produtos: Produto[];
@@ -43,7 +42,7 @@ export default function TableProd({
         {produtos.map((produto) => {
           if (!produto) return null; // Skip null or undefined products
           return (
-            <TableRow key={produto.id_produto}>
+            <TableRow key={produto.idProduto}>
               <TableCell className="font-medium text-left">
                 {produto.nome}
               </TableCell>

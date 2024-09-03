@@ -16,22 +16,26 @@ export default function Home() {
     null
   );
 
-  // Fetch initial list of products
-  const { data, loading, error } = useFetchProd();
+  const { data, loading } = useFetchProd();
 
-  // Add product
-  const {
-    data: addProdData,
-    loading: addProdLoading,
-    error: addProdError,
-  } = useFetchAddProd(produtoParaAdicionar);
+  const { data: addProdData, loading: addProdLoading } =
+    useFetchAddProd(produtoParaAdicionar);
 
-  // Edit product
-  const {
-    data: editProdData,
-    loading: editProdLoading,
-    error: editProdError,
-  } = useFetchEditProd(produtoParaEditar);
+  const { data: editProdData, loading: editProdLoading } =
+    useFetchEditProd(produtoParaEditar);
+
+  const fetchAndUpdateProdutos = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/api/getProd");
+      if (!response.ok) {
+        throw new Error("Erro ao buscar produtos");
+      }
+      const data = await response.json();
+      setProdutos(data);
+    } catch (error) {
+      console.error("Erro ao buscar produtos:", error);
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -48,20 +52,13 @@ export default function Home() {
 
   useEffect(() => {
     if (editProdData) {
-      setProdutos((prev) =>
-        prev.map((produto) =>
-          produto.id_produto === editProdData.id_produto
-            ? editProdData
-            : produto
-        )
-      );
-      setProdutoParaEditar(null);
+      fetchAndUpdateProdutos();
     }
   }, [editProdData]);
 
   const handleDelete = (produto: Produto) => {
     setProdutos((prev) =>
-      prev.filter((p) => p.id_produto !== produto.id_produto)
+      prev.filter((p) => p.idProduto !== produto.idProduto)
     );
   };
 
@@ -73,10 +70,10 @@ export default function Home() {
     setProdutoParaEditar(produtoEditado);
   };
 
-  // Log the ID of the product being edited for debugging
   useEffect(() => {
     if (produtoParaEditar) {
-      console.log("Editando produto com ID:", produtoParaEditar.id_produto);
+      fetchAndUpdateProdutos();
+      setProdutoParaEditar(null); // Limpar o estado após a atualização
     }
   }, [produtoParaEditar]);
 
@@ -103,11 +100,6 @@ export default function Home() {
                 onDelete={handleDelete}
               />
             </CardContent>
-          )}
-          {(error || addProdError || editProdError) && (
-            <p className="text-red-500">
-              Erro: {error || addProdError || editProdError}
-            </p>
           )}
         </div>
       </Card>
