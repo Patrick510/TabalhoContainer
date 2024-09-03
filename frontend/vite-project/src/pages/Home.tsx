@@ -6,18 +6,32 @@ import { ModeToggle } from "@/components/ModeToggle";
 import TableProd from "@/components/TableProd";
 import { Produto } from "@/lib/types";
 import { useFetchAddProd } from "@/components/hooks/useFetchAddProd";
+import { useFetchEditProd } from "@/components/hooks/useFetchEditProd";
 
 export default function Home() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [produtoParaAdicionar, setProdutoParaAdicionar] =
     useState<Produto | null>(null);
+  const [produtoParaEditar, setProdutoParaEditar] = useState<Produto | null>(
+    null
+  );
 
+  // Fetch initial list of products
   const { data, loading, error } = useFetchProd();
+
+  // Add product
   const {
     data: addProdData,
     loading: addProdLoading,
     error: addProdError,
   } = useFetchAddProd(produtoParaAdicionar);
+
+  // Edit product
+  const {
+    data: editProdData,
+    loading: editProdLoading,
+    error: editProdError,
+  } = useFetchEditProd(produtoParaEditar);
 
   useEffect(() => {
     if (data) {
@@ -27,27 +41,44 @@ export default function Home() {
 
   useEffect(() => {
     if (addProdData) {
-      // Recarregar a lista de produtos após adicionar um novo
-      setProdutoParaAdicionar(null); // Limpar o estado
+      setProdutos((prev) => [...prev, addProdData]);
+      setProdutoParaAdicionar(null);
     }
   }, [addProdData]);
 
-  const handleSaveEdit = (produtoEditado: Produto) => {
-    setProdutos((prev) =>
-      prev.map((produto) =>
-        produto.id === produtoEditado.id ? produtoEditado : produto
-      )
-    );
-  };
+  useEffect(() => {
+    if (editProdData) {
+      setProdutos((prev) =>
+        prev.map((produto) =>
+          produto.id_produto === editProdData.id_produto
+            ? editProdData
+            : produto
+        )
+      );
+      setProdutoParaEditar(null);
+    }
+  }, [editProdData]);
 
   const handleDelete = (produto: Produto) => {
-    setProdutos((prev) => prev.filter((p) => p.id !== produto.id));
+    setProdutos((prev) =>
+      prev.filter((p) => p.id_produto !== produto.id_produto)
+    );
   };
 
   const handleSave = (produto: Produto) => {
     setProdutoParaAdicionar(produto);
-    // setProdutos((prev) => [...prev, produto]);
   };
+
+  const handleSaveEdit = (produtoEditado: Produto) => {
+    setProdutoParaEditar(produtoEditado);
+  };
+
+  // Log the ID of the product being edited for debugging
+  useEffect(() => {
+    if (produtoParaEditar) {
+      console.log("Editando produto com ID:", produtoParaEditar.id_produto);
+    }
+  }, [produtoParaEditar]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
@@ -62,7 +93,7 @@ export default function Home() {
               <ModeToggle />
             </div>
           </CardHeader>
-          {loading ? (
+          {loading || addProdLoading || editProdLoading ? (
             <p>Carregando...</p>
           ) : (
             <CardContent>
@@ -72,6 +103,11 @@ export default function Home() {
                 onDelete={handleDelete}
               />
             </CardContent>
+          )}
+          {(error || addProdError || editProdError) && (
+            <p className="text-red-500">
+              Erro: {error || addProdError || editProdError}
+            </p>
           )}
         </div>
       </Card>
