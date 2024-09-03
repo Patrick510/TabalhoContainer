@@ -7,14 +7,17 @@ export const useFetchEditProd = (produtoParaEditar: Produto | null) => {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    if (!produtoParaEditar || !produtoParaEditar.id_produto) return;
+    if (!produtoParaEditar || !produtoParaEditar.idProduto) {
+      setError("Produto inválido");
+      return;
+    }
 
     const fetchData = async () => {
       setLoading(true);
       setError("");
       try {
         const response = await fetch(
-          `/api/produtos/${produtoParaEditar.id_produto}`,
+          `http://localhost:8000/api/editProd/${produtoParaEditar.idProduto}`,
           {
             method: "PUT",
             headers: {
